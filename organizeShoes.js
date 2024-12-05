@@ -3,35 +3,18 @@
  * @returns {number[]} Available shoes 
  */
 function organizeShoes(shoes) {
-    let array = [];
-    for(let value of shoes){
-        let type = value.type, number = value.size;
-        let pass = false;
-        for(let i = 0; i < array.length; i++){
-            if(array[i].number == number){
-                if(type === 'I' && array[i].left === 0){
-                    array[i].left = 1;
-                    pass = true;
-                    break;
-                }
-                else if(type === 'R' && array[i].right === 0){
-                    array[i].right = 1;
-                    pass = true;
-                    break;
-                }
-            }
+    let shoeMap = new Map();
+    for(let {type, size} of shoes){
+        if(!shoeMap.has(size)){
+            shoeMap.set(size, {left:0, right: 0});
         }
-        if(pass === false){
-            let left = 0, right = 0;
-            if(type === 'I') left = 1;
-            if(type === 'R') right = 1;
-            array.push({number: number, left: left, right: right})
-        }
+        if(type == 'I') shoeMap.get(size).left++;
+        if(type == 'R') shoeMap.get(size).right++;
     }
     let pairs = [];
-    for(let i = 0; i < array.length; i++){
-        if (array[i].left === 1 && array[i].right === 1)
-            pairs.push(array[i].number);
+    for(let [size, {left, right}] of shoeMap){
+        let min = Math.min(left, right);
+        for(let i = 0; i < min; i++) pairs.push(size);
     }
     return pairs;
 }
