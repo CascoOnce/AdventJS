@@ -10,23 +10,21 @@ function moveTrain(board, mov) {
     let pos = concatenado.indexOf('@');
 
     column = pos%maxcol;
-    row = Math.floor(pos / maxcol);
-
-    if(mov === 'U') row -= 1;
-    else if(mov === 'D') row += 1;
-    else if(mov === 'L') column -= 1;
-    else if(mov === 'R') column += 1;
-
-    if(row < 0 || row >= maxrow) return 'crash';
-
-    let array = board[row].split("");
+    
+    if(mov === 'L') column -= 1, pos -= 1;
+    else if(mov === 'R') column += 1, pos += 1;
     if(column < 0 || column >= maxcol) return 'crash';
-    if(array[column] == '·') return 'none';
-    if(array[column] == '*') return 'eat';
-    if(array[column] == 'o') return 'crash';
+
+    if(mov === 'U') pos -= maxcol;
+    else if(mov === 'D') pos += maxcol;
+    if(pos < 0 || pos >= maxcol*maxrow) return 'crash';
+    
+    const charAtPosition = concatenado[pos];
+
+    if(charAtPosition == 'o') return 'crash';
+    if(charAtPosition == '*') return 'eat';
     return 'none'
 }
-
 
 const board = [
     '·····',
