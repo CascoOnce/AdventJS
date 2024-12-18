@@ -20,7 +20,6 @@ function moveTrain(board, mov) {
     if(pos < 0 || pos >= maxcol*maxrow) return 'crash';
     
     const charAtPosition = concatenado[pos];
-
     if(charAtPosition == 'o') return 'crash';
     if(charAtPosition == '*') return 'eat';
     return 'none'
